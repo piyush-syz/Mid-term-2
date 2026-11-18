@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Account</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; background: #f0f2f5; margin: 0; padding: 30px 16px; }
+  .card { max-width: 420px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+  h1 { text-align: center; margin-top: 0; font-size: 26px; }
+  label { display: block; font-weight: bold; margin: 14px 0 6px; }
+  input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #999; border-radius: 4px; box-sizing: border-box; }
+  .err { color: red; font-size: 13px; min-height: 16px; margin-top: 4px; }
+  button { width: 100%; margin-top: 18px; padding: 12px; font-size: 16px; color: #fff; background: #333; border: none; border-radius: 4px; cursor: pointer; }
+  button:hover { background: #111; }
+  #success { color: green; font-weight: bold; margin-top: 14px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Create Account</h1>
+    <form id="regForm" novalidate>
+      <label for="name">Full name</label>
+      <input type="text" id="name">
+      <div class="err" id="nameErr"></div>
+
+      <label for="email">Email</label>
+      <input type="text" id="email">
+      <div class="err" id="emailErr"></div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password">
+      <div class="err" id="passErr"></div>
+
+      <label for="confirm">Confirm password</label>
+      <input type="password" id="confirm">
+      <div class="err" id="confirmErr"></div>
+
+      <button type="submit">Register</button>
+      <div id="success"></div>
+    </form>
+  </div>
+
+<script>
+  document.getElementById("regForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // page reload nahi hoga
+
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value;
+    var confirm = document.getElementById("confirm").value;
+
+    var nameErr = document.getElementById("nameErr");
+    var emailErr = document.getElementById("emailErr");
+    var passErr = document.getElementById("passErr");
+    var confirmErr = document.getElementById("confirmErr");
+    var success = document.getElementById("success");
+
+    // Pehle sab messages clear karo
+    nameErr.textContent = emailErr.textContent = passErr.textContent = confirmErr.textContent = "";
+    success.textContent = "";
+
+    var valid = true;
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (name.length < 3) {
+      nameErr.textContent = "Name must be at least 3 characters.";
+      valid = false;
+    }
+    if (!emailPattern.test(email)) {
+      emailErr.textContent = "Enter a valid email, e.g. name@example.com";
+      valid = false;
+    }
+    if (password.length < 6 || !/\d/.test(password)) {
+      passErr.textContent = "Use 6+ characters including a number.";
+      valid = false;
+    }
+    if (confirm !== password || confirm === "") {
+      confirmErr.textContent = "Passwords do not match.";
+      valid = false;
+    }
+
+    if (valid) {
+      success.textContent = "Registration successful! Welcome, " + name + ".";
+    }
+  });
+</script>
+</body>
+</html>
